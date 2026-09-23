@@ -6,6 +6,26 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- Input fields for task name, category, deadline, and status.-->
+    <input id="taskName" type="text" placeholder="Enter the task name."/>
+    <input id="categoryName" type="text" placeholder="Enter the category."/>
+    <input id="deadlineDate" type="text" placeholder="Enter the deadline."/>
+    <input id="taskStatus" type="text" placeholder="Enter the status."/>
     
+    <!-- A button to add new tasks.-->
+    <button id="addTaskButton">Add Task</button>
+
+    <!-- A dropdown or buttons to filter tasks by status or category.-->
+    <label for="group-items">Group items:</label>
+
+    <select name="tasks" id="task-select">
+        <option value="">--PLease select status or category--</option>
+        <option value="status">Status</option>
+        <option value="category">Category</option>
+        <option value="update">Update Task Status</option>
+    </select>
+
+    <!-- A display area to show the list of tasks, including options to update task status.-->
+    <ul id="tasks">Tasks</ul>
 </body>
 </html>
