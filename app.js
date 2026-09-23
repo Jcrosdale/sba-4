@@ -8,15 +8,26 @@
 //Persist task data using local storage so tasks are saved even after refreshing the page.
 
 // DOM
-const tasks = document.querySelector('#tasks');
-
+const tasks = document.getElementById('tasks');
+const taskInput = document.getElementById('taskInput');
+const categoryInput = document.getElementById('categoryInput');
+const deadlineInput = document.getElementById('deadlineInput');
+const statusInput = document.getElementById('statusInput');
+const addTaskButton = document.getElementById('addTaskButton');
 
 //Use an array to store tasks, each represented as an object.
-let storeTasks = [];
+let taskList = [];
+
+const task = {
+    name: taskInput.value,
+    category: categoryInput.value,
+    deadline: deadlineInput.value,
+    status: statusInput.value
+};
 
 //Write functions to add tasks, update task status, check overdue tasks, and filter tasks.
 function addTask(task) { //needs parameter because tasks could change on input
-    storeTasks.push(task);
+    taskList.push(task);
 }
 //Use DOM manipulation to display the task list dynamically.
 //Implement local storage to persist task data.
