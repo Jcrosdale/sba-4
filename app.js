@@ -7,7 +7,7 @@
 //Filter tasks by status or category.
 //Persist task data using local storage so tasks are saved even after refreshing the page.
 
-// DOM
+//DOM
 const tasks = document.getElementById('tasks');
 const taskInput = document.getElementById('taskInput');
 const categoryInput = document.getElementById('categoryInput');
@@ -18,16 +18,49 @@ const addTaskButton = document.getElementById('addTaskButton');
 //Use an array to store tasks, each represented as an object.
 let taskList = [];
 
-const task = {
-    name: taskInput.value,
-    category: categoryInput.value,
-    deadline: deadlineInput.value,
-    status: statusInput.value
+let newTaskId = 1;
+//Write functions to add tasks, update task status, check overdue tasks, and filter tasks.
+function addTask(){
+    
+    const task = {
+        id: newTaskId,
+        name: taskInput.value,
+        category: categoryInput.value,
+        deadline: deadlineInput.value,
+        status: statusInput.value
+    };
+
+    newTaskId++;
+    
+    taskList.push(task);
+
+    displayTasks();
 };
 
-//Write functions to add tasks, update task status, check overdue tasks, and filter tasks.
-function addTask(task) { //needs parameter because tasks could change on input
-    taskList.push(task);
-}
+function updateTask() {
+
+};
+
+function overdueTask() {
+
+};
+
+function filterTask() {
+
+};
+
+//Event listeners
+addTaskButton.addEventListener('click', addTask);
+
 //Use DOM manipulation to display the task list dynamically.
+function displayTasks() {
+    tasks.innerHTML = '';
+    
+    for (let task of taskList) {
+        let listItem = document.createElement("li");
+        listItem.textContent = `${task.name} | ${task.category} | ${task.deadline} | ${task.status}`;
+        tasks.appendChild(listItem);
+    }
+}
+
 //Implement local storage to persist task data.
