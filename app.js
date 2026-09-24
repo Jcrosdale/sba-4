@@ -52,11 +52,12 @@ function overdueTask() {
 };
 
 function filterTask() {
-
+    const filterType = taskSelect.value;
 };
 
 //Event listeners
 addTaskButton.addEventListener('click', addTask);
+taskSelect.addEventListener('change', filterTask);
 
 //Use DOM manipulation to display the task list dynamically.
 function displayTasks() {
