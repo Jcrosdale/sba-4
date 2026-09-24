@@ -12,20 +12,24 @@
     <!-- Input fields for task name, category, deadline, and status.-->
     <input id="taskInput" type="text" placeholder="Enter the task name."/>
     <input id="categoryInput" type="text" placeholder="Enter the category."/>
-    <input id="deadlineInput" type="text" placeholder="Enter the deadline."/>
-    <input id="statusInput" type="text" placeholder="Enter the status."/>
+    <input id="deadlineInput" type="date" placeholder="Enter the deadline."/>
     
+    <select id="statusInput">
+        <option value="Not Started">Not Started</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+    </select>
+
     <!-- A button to add new tasks.-->
     <button id="addTaskButton">Add Task</button>
 
     <!-- A dropdown or buttons to filter tasks by status or category.-->
-    <label for="group-items">Group items:</label>
+    <label for="task-select">Group items:</label>
 
     <select name="tasks" id="task-select">
         <option value="">--PLease select status or category--</option>
         <option value="status">Status</option>
         <option value="category">Category</option>
-        <option value="update">Update Task Status</option>
     </select>
 
     <!-- A display area to show the list of tasks, including options to update task status.-->
