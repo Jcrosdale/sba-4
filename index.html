@@ -9,10 +9,11 @@
     <script src="app.js" defer></script>
 </head>
 <body>
+    <h1>Task Management App</h1>
     <!-- Input fields for task name, category, deadline, and status.-->
-    <input id="taskInput" type="text" placeholder="Enter the task name."/>
-    <input id="categoryInput" type="text" placeholder="Enter the category."/>
-    <input id="deadlineInput" type="date" placeholder="Enter the deadline."/>
+    <input id="taskInput" type="text" placeholder="Enter the task name." required/>
+    <input id="categoryInput" type="text" placeholder="Enter the category." required/>
+    <input id="deadlineInput" type="date" placeholder="Enter the deadline." required/>
     
     <select id="statusInput">
         <option value="Not Started">Not Started</option>
@@ -21,9 +22,10 @@
     </select>
 
     <!-- A button to add new tasks.-->
-    <button id="addTaskButton">Add Task</button>
+    <button id="addTaskButton" type="button">Add Task</button>
 
     <!-- A dropdown or buttons to filter tasks by status or category.-->
+    <h2>Filter Tasks</h2>
     <label for="task-select">Group items:</label>
 
     <select name="tasks" id="task-select">
@@ -32,7 +34,13 @@
         <option value="category">Category</option>
     </select>
 
+    <label for="filterValue">Filter by:</label>
+    <select id="filterValue">
+        <option value="">--Select a filter--</option>
+    </select>
+
     <!-- A display area to show the list of tasks, including options to update task status.-->
+    <h2>Task List</h2>
     <ul id="tasks">Tasks</ul>
 </body>
 </html>

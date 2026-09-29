@@ -52,7 +52,7 @@ function overdueTask() {
 };
 
 function filterTask() {
-    const filterType = taskSelect.value;
+    const selectedStatus = statusFilter.value;
 };
 
 //Event listeners
