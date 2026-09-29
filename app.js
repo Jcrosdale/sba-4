@@ -21,7 +21,8 @@ const filterValue = document.getElementById('filterValue');
 
 //Use an array to store tasks, each represented as an object.
 let taskList = JSON.parse(localStorage.getItem('taskList')) || [];
-let newTaskId = taskList.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1; // 
+let newTaskId = taskList.reduce((maxId, task) => // .reduce() turns all elements of an array to a single value
+    Math.max(maxId, task.id), 0) + 1; // keeps track of the highest task ID
 
 //Write functions to add tasks, update task status, check overdue tasks, and filter tasks.
 
@@ -68,7 +69,7 @@ function updateTask(taskId, newStatus) {
     // Save changes
     overdueTask();
     saveTasks();
-    displayTasks();
+    filterTask(); // Filter applied after status is updated
 };
 
 function overdueTask() {
@@ -126,6 +127,8 @@ function displayTasks(filteredTasks = taskList) { // Accepts an array of tasks
         status3.textContent = 'Completed';
         status4.textContent = 'Overdue';
 
+        status4.disabled = true; // Prevents overdue from being an option since it needs to be automatic after a deadline
+
         // Adds options to the dropdown
         selectItem.appendChild(status1);
         selectItem.appendChild(status2);
@@ -145,9 +148,6 @@ function displayTasks(filteredTasks = taskList) { // Accepts an array of tasks
         // Dropdown event listener
         selectItem.addEventListener('change', function () {
             updateTask(task.id, selectItem.value);
-
-            displayTasks(); // Refreshes the display
-
         });
     }
 }
