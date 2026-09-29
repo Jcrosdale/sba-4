@@ -16,6 +16,9 @@ const statusInput = document.getElementById('statusInput');
 const addTaskButton = document.getElementById('addTaskButton');
 let option = document.createElement("option");
 
+const taskSelect = document.getElementById('task-select');
+const filterValue = document.getElementById('filterValue');
+
 //Use an array to store tasks, each represented as an object.
 let taskList = [];
 let newTaskId = 1;
@@ -74,15 +77,28 @@ function overdueTask() {
     };
 
     function filterTask() {
-        const selectedStatus = statusFilter.value;
+        const selectedType = taskSelect.value;
+        const selectedValue = filterValue.value;
+
+        let filteredTasks = taskList;
+
+        if (selectedType === 'status') {
+            filteredTasks = taskList.filter(task => task.status === selectedValue);
+        } else if (selectedType === 'category') {
+            filteredTasks = taskList.filter(task => task.category === selectedValue);
+        }
+
+        displayTasks(filteredTasks);
     };
 
     //Event listeners
     addTaskButton.addEventListener('click', addTask);
     taskSelect.addEventListener('change', filterTask);
+    taskSelect.addEventListener('change', filterTask);
+    filterValue.addEventListener('change', filterTask);
 
     //Use DOM manipulation to display the task list dynamically.
-    function displayTasks() {
+    function displayTasks(filteredTasks = taskList) {
         tasks.innerHTML = '';
 
         for (let task of taskList) {
