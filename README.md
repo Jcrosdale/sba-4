@@ -1,0 +1,1 @@
+This project covers creating a Task Management App. Users should be able to add tasks with deadlines, assign categories, and update the status when needed. Task data should also be saved to local storage so it persists after a refresh.
