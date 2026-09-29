@@ -98,31 +98,47 @@ function overdueTask() {
     filterValue.addEventListener('change', filterTask);
 
     //Use DOM manipulation to display the task list dynamically.
-    function displayTasks(filteredTasks = taskList) {
-        tasks.innerHTML = '';
+    function displayTasks(filteredTasks = taskList) { // Accepts an array of tasks
+        tasks.innerHTML = ''; // clears the old list before adding an updated one
 
-        for (let task of taskList) {
-            let listItem = document.createElement("li");
-            let selectItem = document.createElement("select");
+        for (let task of filteredTasks) { // Loops through each object in the taskList array
+            let listItem = document.createElement("li"); // Creates a new HTML li
+            let selectItem = document.createElement("select"); // Creates a new HTML dropdown
+
             let status1 = document.createElement("option");
             let status2 = document.createElement("option");
             let status3 = document.createElement("option");
+
+            // Assigns values to each option
+            status1.value = 'Not Started';
+            status2.value = 'In Progress';
+            status3.value = 'Completed';
+
+            // Sets the text content for each option
             status1.textContent = 'Not Started';
             status2.textContent = 'In Progress';
             status3.textContent = 'Completed';
+
+            // Adds options to the dropdown
             selectItem.appendChild(status1);
             selectItem.appendChild(status2);
             selectItem.appendChild(status3);
 
+            // Sets the dropdown to the task's current status
+            selectItem.value = task.status;
+
+            // Displays task details
             listItem.textContent = `${task.id} | ${task.name} | ${task.category} | ${task.deadline} | ${task.status}`;
 
+            // Adds dropdown and list item to the list
             listItem.appendChild(selectItem);
             tasks.appendChild(listItem);
 
+            // Dropdown event listener
             selectItem.addEventListener('change', function () {
                 updateTask(task.id, selectItem.value);
 
-                displayTasks();
+                displayTasks(); // Refreshes the display
 
             });
         }
