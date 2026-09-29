@@ -20,8 +20,8 @@ const taskSelect = document.getElementById('task-select');
 const filterValue = document.getElementById('filterValue');
 
 //Use an array to store tasks, each represented as an object.
-let taskList = [];
-let newTaskId = 1;
+let taskList = JSON.parse(localStorage.getItem('taskList')) || [];
+let newTaskId = taskList.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1; // 
 
 //Write functions to add tasks, update task status, check overdue tasks, and filter tasks.
 
@@ -61,90 +61,99 @@ function saveTasks() {
 
 function updateTask(taskId, newStatus) {
     const task = taskList.find(task => task.id === taskId);
+
+    if (!task) return;
     task.status = newStatus;
+
+    // Save changes
+    overdueTask();
+    saveTasks();
+    displayTasks();
 };
 
 function overdueTask() {
-        const today = new Date().toLocaleDateString('en-CA'); // Format: YYYY-MM-DD 
+    const today = new Date().toLocaleDateString('en-CA'); // Format: YYYY-MM-DD 
 
-        for (let task of taskList) {
-            if (task.deadline < today && task.status !== 'Completed') {
-                task.status = 'Overdue';
-            } else if (task.status === 'Overdue') {
-                task.status = 'In Progress';
-            }
-        }
-    };
-
-    function filterTask() {
-        const selectedType = taskSelect.value;
-        const selectedValue = filterValue.value;
-
-        let filteredTasks = taskList;
-
-        if (selectedType === 'status') {
-            filteredTasks = taskList.filter(task => task.status === selectedValue);
-        } else if (selectedType === 'category') {
-            filteredTasks = taskList.filter(task => task.category === selectedValue);
-        }
-
-        displayTasks(filteredTasks);
-    };
-
-    //Event listeners
-    addTaskButton.addEventListener('click', addTask);
-    taskSelect.addEventListener('change', filterTask);
-    taskSelect.addEventListener('change', filterTask);
-    filterValue.addEventListener('change', filterTask);
-
-    //Use DOM manipulation to display the task list dynamically.
-    function displayTasks(filteredTasks = taskList) { // Accepts an array of tasks
-        tasks.innerHTML = ''; // clears the old list before adding an updated one
-
-        for (let task of filteredTasks) { // Loops through each object in the taskList array
-            let listItem = document.createElement("li"); // Creates a new HTML li
-            let selectItem = document.createElement("select"); // Creates a new HTML dropdown
-
-            let status1 = document.createElement("option");
-            let status2 = document.createElement("option");
-            let status3 = document.createElement("option");
-
-            // Assigns values to each option
-            status1.value = 'Not Started';
-            status2.value = 'In Progress';
-            status3.value = 'Completed';
-
-            // Sets the text content for each option
-            status1.textContent = 'Not Started';
-            status2.textContent = 'In Progress';
-            status3.textContent = 'Completed';
-
-            // Adds options to the dropdown
-            selectItem.appendChild(status1);
-            selectItem.appendChild(status2);
-            selectItem.appendChild(status3);
-
-            // Sets the dropdown to the task's current status
-            selectItem.value = task.status;
-
-            // Displays task details
-            listItem.textContent = `${task.id} | ${task.name} | ${task.category} | ${task.deadline} | ${task.status}`;
-
-            // Adds dropdown and list item to the list
-            listItem.appendChild(selectItem);
-            tasks.appendChild(listItem);
-
-            // Dropdown event listener
-            selectItem.addEventListener('change', function () {
-                updateTask(task.id, selectItem.value);
-
-                displayTasks(); // Refreshes the display
-
-            });
+    for (let task of taskList) {
+        if (task.deadline < today && task.status !== 'Completed') {
+            task.status = 'Overdue';
         }
     }
+};
 
-    overdueTask();
-    displayTasks();
+function filterTask() {
+    const selectedType = taskSelect.value; // Value from first dropdown
+    const selectedValue = filterValue.value; // Value from second dropdown
+
+    let filteredTasks = taskList;
+
+    if (selectedType === 'status' && selectedValue) { // Status was selected and there's a value in the second dropdown
+        filteredTasks = taskList.filter(task => task.status === selectedValue);
+    } else if (selectedType === 'category' && selectedValue) {
+        filteredTasks = taskList.filter(task => task.category === selectedValue);
+    };
+
+    displayTasks(filteredTasks);
+};
+
+//Event listeners
+addTaskButton.addEventListener('click', addTask);
+taskSelect.addEventListener('change', filterTask);
+filterValue.addEventListener('change', filterTask);
+
+//Use DOM manipulation to display the task list dynamically.
+function displayTasks(filteredTasks = taskList) { // Accepts an array of tasks
+    tasks.innerHTML = ''; // clears the old list before adding an updated one
+
+    for (let task of filteredTasks) { // Loops through each object in the taskList array
+        let listItem = document.createElement("li"); // Creates a new HTML li
+        let selectItem = document.createElement("select"); // Creates a new HTML dropdown
+
+        let status1 = document.createElement("option");
+        let status2 = document.createElement("option");
+        let status3 = document.createElement("option");
+        let status4 = document.createElement("option");
+
+        // Assigns values to each option
+        status1.value = 'Not Started';
+        status2.value = 'In Progress';
+        status3.value = 'Completed';
+        status4.value = 'Overdue';
+
+        // Sets the text content for each option
+        status1.textContent = 'Not Started';
+        status2.textContent = 'In Progress';
+        status3.textContent = 'Completed';
+        status4.textContent = 'Overdue';
+
+        // Adds options to the dropdown
+        selectItem.appendChild(status1);
+        selectItem.appendChild(status2);
+        selectItem.appendChild(status3);
+        selectItem.appendChild(status4);
+
+        // Sets the dropdown to the task's current status
+        selectItem.value = task.status;
+
+        // Displays task details
+        listItem.textContent = `${task.id} | ${task.name} | ${task.category} | ${task.deadline} | ${task.status}`;
+
+        // Adds dropdown and list item to the list
+        listItem.appendChild(selectItem);
+        tasks.appendChild(listItem);
+
+        // Dropdown event listener
+        selectItem.addEventListener('change', function () {
+            updateTask(task.id, selectItem.value);
+
+            displayTasks(); // Refreshes the display
+
+        });
+    }
+}
+
+overdueTask();
+saveTasks();
+displayTasks();
 
 //Implement local storage to persist task data.
